@@ -49,6 +49,8 @@ def get_code(file_name):
         return 'VEB'
     elif 'lafitteau' in file_name.lower():
         return 'VEL'
+    elif 'laffiteau' in file_name.lower():
+        return 'VEL'
     
 
 def process_ventes(folder, file_name, code):
