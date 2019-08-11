@@ -8,7 +8,7 @@ import traceback
 
 
 def process_salary_line(line):
-    l = line.decode('ISO-8859-1').strip()
+    l = line.strip()
     sa = l[:2]
     dt = l[2:10]
     compte = l[30:38]
@@ -24,11 +24,11 @@ def process_salary(folder, file_name):
         data = [process_salary_line(s) for s in f.readlines()]
         df = pd.DataFrame(data)
     df.to_csv(join(folder, splitext(file_name)[0] + '.csv'), sep=';', index=False, 
-              header=None, encoding='utf-8')
+              header=None)
     
 
 def process_ventes_line(line, code):
-    l = line.decode('ISO-8859-1').replace('\n', '')
+    l = line.replace('\n', '')
     dt = l[7: 15]
     c = l[35: 46].strip()
     if c.startswith('411'):
@@ -57,7 +57,7 @@ def process_ventes(folder, file_name, code):
         data = [process_ventes_line(s, code) for s in f.readlines()]
         df = pd.DataFrame(data)
     df.to_csv(join(folder, splitext(file_name)[0] + '.csv'), sep=';', index=False, 
-             header=['JAL', 'DATE', 'COMPTE', 'TIERS', '', '', '', ''], encoding='utf-8')
+             header=['JAL', 'DATE', 'COMPTE', 'TIERS', '', '', '', ''])
     return code
 
 
