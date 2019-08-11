@@ -7,7 +7,7 @@ PACKAGE = 'canaillous'
 pkg = __import__(PACKAGE)
 VERSION = pkg.__version__
 
-install_requires = ['pandas==0.21']
+install_requires = ['pandas']
 
 setuptools.setup(
     name=pkg.NAME,
