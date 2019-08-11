@@ -1,4 +1,5 @@
 #!/bin/bash
-cd `dirname $0`
+BASEDIR="`dirname "$0"`"
+cd "${BASEDIR}"
 echo ${PWD}
-canaillous ${PWD}
+canaillous "${PWD}"

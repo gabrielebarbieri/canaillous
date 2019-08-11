@@ -4,6 +4,8 @@ import re
 from os.path import join, splitext
 import logging
 import sys
+import traceback
+
 
 def process_salary_line(line):
     l = line.decode('ISO-8859-1').strip()
@@ -15,6 +17,7 @@ def process_salary_line(line):
     t = l[79]
     return [sa, dt, compte, name, rem, t]
 
+
 def process_salary(folder, file_name):
     logging.info('process salary for {}'.format(file_name))
     with open(join(folder, file_name)) as f:
@@ -23,6 +26,7 @@ def process_salary(folder, file_name):
     df.to_csv(join(folder, splitext(file_name)[0] + '.csv'), sep=';', index=False, 
               header=None, encoding='utf-8')
     
+
 def process_ventes_line(line, code):
     l = line.decode('ISO-8859-1').replace('\n', '')
     dt = l[7: 15]
@@ -37,6 +41,7 @@ def process_ventes_line(line, code):
     t = l[84]
     return [code, dt] + compte + [rib, name, rem, t]
 
+
 def get_code(file_name):
     if 'armagnac' in file_name.lower():
         return 'VEA'
@@ -45,6 +50,7 @@ def get_code(file_name):
     elif 'lafitteau' in file_name.lower():
         return 'VEL'
     
+
 def process_ventes(folder, file_name, code):
     logging.info('process ventes for {} with code {}'.format(file_name, code))
     with open(join(folder, file_name)) as f:
@@ -53,6 +59,7 @@ def process_ventes(folder, file_name, code):
     df.to_csv(join(folder, splitext(file_name)[0] + '.csv'), sep=';', index=False, 
              header=['JAL', 'DATE', 'COMPTE', 'TIERS', '', '', '', ''], encoding='utf-8')
     return code
+
 
 def process_folder(folder=None):
     if folder is None:
@@ -68,6 +75,7 @@ def process_folder(folder=None):
                     process_ventes(folder, f, code)
             except:
                 logging.error('Something went wrong wiht: {}'.format(f))
+                traceback.print_exc()
 
 def main():
     logging.basicConfig(level=logging.INFO)
