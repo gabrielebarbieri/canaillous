@@ -1,0 +1,13 @@
+*.pyc
+*~
+*.egg-info
+env/*
+.cache/*
+__pycache__
+.eggs
+.coverage
+build
+dist
+htmlcov/*
+docs/_build
+.editorconfig
