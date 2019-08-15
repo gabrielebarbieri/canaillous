@@ -10,7 +10,7 @@ import traceback
 def process_salary_line(line):
     l = line.decode('ISO-8859-1').strip()
     sa = l[:2]
-    dt = l[2:10]
+    dt = pd.to_datetime(l[2:10]).date().strftime('%d/%m/%Y')
     compte = l[30:38]
     name = l[41:71].strip()
     rem = l[71:79].strip()
@@ -29,7 +29,7 @@ def process_salary(folder, file_name):
 
 def process_ventes_line(line, code):
     l = line.decode('ISO-8859-1').replace('\n', '')
-    dt = l[7: 15]
+    dt = pd.to_datetime(l[7: 15]).date().strftime('%d/%m/%Y')
     c = l[35: 46].strip()
     if c.startswith('411'):
         compte = [u'41110000', c]
