@@ -55,11 +55,11 @@ def get_code(file_name):
     
 def get_axe(code):
     if code == 'VEA':
-        return 30
+        return '30 ARMAGNAC'
     elif code =='VEB':
-        return 10
+        return '10 BRASCASSAT'
     elif code == 'VEL':
-        return 20
+        return '20 LAFFITEAU'
 
 
 def process_ventes(folder, file_name, code):
