@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import pandas as pd
 import re
@@ -52,14 +53,25 @@ def get_code(file_name):
     elif 'laffiteau' in file_name.lower():
         return 'VEL'
     
+def get_axe(code):
+    if code == 'VEA':
+        return 30
+    elif code =='VEB':
+        return 10
+    elif code == 'VEL':
+        return 20
+
 
 def process_ventes(folder, file_name, code):
     logging.info('process ventes for {} with code {}'.format(file_name, code))
     with open(join(folder, file_name)) as f:
         data = [process_ventes_line(s, code) for s in f.readlines()]
         df = pd.DataFrame(data)
+        df['axe etablissement'] = get_axe(code)
     df.to_csv(join(folder, splitext(file_name)[0] + '.csv'), sep=';', index=False, 
-             header=['JAL', 'DATE', 'COMPTE', 'TIERS', '', '', '', ''], encoding='utf-8')
+             header=['Journal', 'Date', 'Compte', 'Tiers', 'Réference', 'Libellé', 'Montant', 'Sens', 
+             'Axe Etablissement'], 
+             encoding='utf-8')
     return code
 
 
