@@ -32,15 +32,17 @@ def process_ventes_line(line, code):
     l = line.decode('ISO-8859-1').replace('\n', '')
     dt = pd.to_datetime(l[7: 15]).date().strftime('%d/%m/%Y')
     c = l[35: 46].strip()
+    axe = ''
     if c.startswith('411'):
         compte = [u'41110000', c]
     else:
         compte = [c, u'']
+        axe = get_axe(code)
     rib = l[46:57]
     name = l[58: 71].strip()
     rem = l[71:84].strip()
     t = l[84]
-    return [code, dt] + compte + [rib, name, rem, t]
+    return [code, dt] + compte + [rib, name, rem, t, axe]
 
 
 def get_code(file_name):
@@ -67,7 +69,6 @@ def process_ventes(folder, file_name, code):
     with open(join(folder, file_name)) as f:
         data = [process_ventes_line(s, code) for s in f.readlines()]
         df = pd.DataFrame(data)
-        df['axe etablissement'] = get_axe(code)
     df.to_csv(join(folder, splitext(file_name)[0] + '.csv'), sep=';', index=False, 
              header=['Journal', 'Date', 'Compte', 'Tiers', 'Réference', 'Libellé', 'Montant', 'Sens', 
              'Axe Etablissement'], 
